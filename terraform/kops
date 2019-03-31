@@ -1,0 +1,25 @@
+# Configuração KOPS
+export NAME=$(terraform output name)
+export KOPS_STATE_STORE=$(terraform output state_store)
+
+# Geração da chave SSH
+ssh-keygen -f ~/.ssh/kops_key
+
+# Geração do Terraform do KOPS
+kops create cluster \
+  --name=$(terraform output name) \
+  --state=$(terraform output state_store) \
+  --authorization RBAC \
+  --zones=us-east-1a \
+  --node-count=1 \
+  --node-size=t3.small \
+  --master-size=t3.small \
+  --master-count=1 \
+  --dns-zone=$(terraform output public_zone_id) \
+  --vpc=$(terraform output vpc_id)\
+  --out=. \
+  --target=terraform \
+  --ssh-public-key=~/.ssh/kops_key.pub
+
+# Imagem de teste k8s
+kubectl run k8s-demo --image=gcr.io/google-samples/kubernetes-bootcamp:v1 --port=8080
