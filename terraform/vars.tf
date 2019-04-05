@@ -2,10 +2,10 @@ variable "AWS_REGION" {
   default = "us-east-1"
 }
 variable "NAME" {
-  default = "curinga0.tk"
+  default = "hoa0.tk"
 }
 variable "KOPS_STATE" {
-  default = "kops-curinga0.tk"
+  default = "kops-hoa0.tk"
 }
 variable "ENVIRONMENT" {
   default = "Development"
